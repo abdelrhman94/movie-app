@@ -11,9 +11,9 @@ const movieSearchable = document.querySelector('#movies-searchable');
 function movieSection(movies) {
   return movies.map((movie) => {
     if (movie.poster_path) {
-      return `
-          <img src=${imageUrl + movie.poster_path} data-movie-id=${movie.id} />
-        `;
+      return `<img 
+      src=${imageUrl + movie.poster_path} data-movie-id=${movie.id} 
+      />`;
     }
   });
 }
@@ -26,13 +26,21 @@ function createMovieContainer(movies) {
     <section class="section">
       ${movieSection(movies)}
     </section>
-  <div class="content">
+  <div class="content content-display">
     <p id="content-close">x</p>
   </div>
   `;
 
   movieElement.innerHTML = movieTemplate;
   return movieElement;
+}
+
+function renderSearchMovies(data) {
+  movieSearchable.innerHTML = '';
+  const movies = data.results;
+  const movieBlock = createMovieContainer(movies);
+  movieSearchable.appendChild(movieBlock);
+  console.log('data:', data);
 }
 
 buttonElement.onclick = (event) => {
@@ -42,14 +50,19 @@ buttonElement.onclick = (event) => {
   const newUrl = url + '&query=' + value;
   fetch(newUrl)
     .then((res) => res.json())
-    .then((data) => {
-      const movies = data.results;
-      const movieBlock = createMovieContainer(movies);
-      movieSearchable.appendChild(movieBlock);
-      console.log('data:', data);
-    })
+    .then(renderSearchMovies)
     .catch((error) => {
       console.log('error:', error);
     });
+
+  inputElement.value = '';
   console.log('value:', value);
+};
+
+document.onclick = (event) => {
+  const target = event.target;
+
+  if (target.tagName.toLowerCase() === 'img') {
+    console.log('Hello World');
+  }
 };
