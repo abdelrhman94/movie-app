@@ -50,12 +50,19 @@ img:hover {
   cursor: pointer;
 }
 
-.content{
+.content {
   border: 1px solid red;
-  height: 300px;
   display: none;
 }
 
-.content-display{
+.content div {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 10px;
+}
+
+.content-display {
   display: block;
 }
